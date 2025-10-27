@@ -13,7 +13,7 @@ def read_csv_with_delimiter(file_path, delimiter):
     delimiter: The delimiter to use.
 
   Returns:
-    A pandas DataFrame.
+    A pandas DataFrame, or None if an error occurs.
   """
   try:
     # It's good practice to use the `engine='python'` when using a custom delimiter
@@ -24,12 +24,12 @@ def read_csv_with_delimiter(file_path, delimiter):
     df = pd.read_csv(file_path, delimiter=delimiter, engine='python', on_bad_lines='warn')
     return df
   except FileNotFoundError:
-    print(f"Error: File not found at {file_path}")
+    print(f"Error: File not found at {file_path}", file=sys.stderr)
     return None
   except pd.errors.ParserError as e:
-    print(f"Error parsing the file: {e}")
+    print(f"Error parsing the file: {e}", file=sys.stderr)
   except Exception as e:
-    print(f"An error occurred: {e}")
+    print(f"An error occurred: {e}", file=sys.stderr)
     return None
 
 if __name__ == "__main__":
