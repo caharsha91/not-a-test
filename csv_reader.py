@@ -1,5 +1,7 @@
-import pandas as pd
 import argparse
+import sys
+
+import pandas as pd
 
 # The on_bad_lines parameter requires pandas version 1.3.0 or later.
 def read_csv_with_delimiter(file_path, delimiter):
@@ -32,13 +34,15 @@ def read_csv_with_delimiter(file_path, delimiter):
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Read a CSV file with a specified delimiter into a pandas DataFrame.")
-  parser.add_argument("--file_path", help="The path to the CSV file.")
+  parser.add_argument("--file_path", required=True, help="The path to the CSV file.")
   parser.add_argument("-d", "--delimiter", default=",", help="The delimiter used in the CSV file. Defaults to a comma.")
 
   args = parser.parse_args()
 
   dataframe = read_csv_with_delimiter(args.file_path, args.delimiter)
 
-  if dataframe is not None:
-    print("DataFrame created successfully:")
-    print(dataframe)
+  if dataframe is None:
+    sys.exit(1)
+
+  print("DataFrame created successfully:")
+  print(dataframe)
